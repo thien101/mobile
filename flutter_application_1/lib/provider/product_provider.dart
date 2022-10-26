@@ -32,17 +32,35 @@ class ProductProvider extends ChangeNotifier {
 
   void getListCart(ProductModel e) {
     //lay ds san pham tu FakeStoreAPI
-    if (listCart.isEmpty) {
+    /*if (listCart.isEmpty) {
       listCart.add(e);
     } else if (listCart.every((element) => element.id == e.id)) {
       for (var element in listCart) {
         if (element.id == e.id) {
           element.sl = (element.sl! + 1);
+          break;
         }
       }
     } else {
       listCart.add(e);
+    }*/
+
+    if (listCart.isEmpty) {
+      listCart.add(e);
+    } else {
+      int kt = 0;
+      for (var element in listCart) {
+        if (element.id == e.id) {
+          kt = 1;
+          element.sl = (element.sl! + 1);
+          break;
+        }
+      }
+      if (kt == 0) {
+        listCart.add(e);
+      }
     }
+
     notifyListeners();
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:html';
 import 'dart:math';
-
+import 'package:badges/badges.dart';
 import 'package:flutter_application_1/DetailCart.dart';
 import 'package:flutter_application_1/DetailProduct.dart';
 import 'package:flutter_application_1/model/product_model.dart';
@@ -9,18 +9,31 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class ProductModels extends StatelessWidget {
+class ProductModels extends StatefulWidget {
   ProductModels({super.key});
 
+  @override
+  State<ProductModels> createState() => _ProductModelsState();
+}
+
+class _ProductModelsState extends State<ProductModels> {
   late List<ProductModel> _list = [];
+
   bool showGrid = true;
+
   bool isMax = false;
+
   bool isMin = false;
+
   String category = "";
+
   var SearchController = TextEditingController();
+
   final List<ProductModel> listCart = [];
+
   @override
   Widget build(BuildContext context) {
+    print("re-render...");
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -162,16 +175,19 @@ class ProductModels extends StatelessWidget {
           },
           child: const Text('ALL'),
         ),
-        IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: ((context) => (AddCart(
-                            listCart: productProvider.listCart,
-                          )))));
-            },
-            icon: const Icon(Icons.add_shopping_cart))
+        Badge(
+          badgeContent: Text('${productProvider.listCart.length}'),
+          child: IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => (AddCart(
+                              listCart: productProvider.listCart,
+                            )))));
+              },
+              icon: const Icon(Icons.add_shopping_cart)),
+        )
       ],
     );
   }
@@ -256,12 +272,12 @@ class ProductModels extends StatelessWidget {
                   TextButton(
                       onPressed: () {
                         productProvider.getListCart(e);
-                        Navigator.push(
+                        /*Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: ((context) => (AddCart(
                                       listCart: productProvider.listCart,
-                                    )))));
+                                    )))));*/
                       },
                       child: Text('ADD', style: TextStyle(fontSize: 14)))
                 ],
